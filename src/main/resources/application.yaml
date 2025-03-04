@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: TaskManagementSystem
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: postgres
+  jpa:
+    hibernate:
+      ddl-auto: validate
+  liquibase:
+    change-log: db/changelog/changelog-master.xml
