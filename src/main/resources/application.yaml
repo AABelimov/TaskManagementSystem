@@ -8,5 +8,17 @@ spring:
   jpa:
     hibernate:
       ddl-auto: validate
+    show-sql: false
   liquibase:
     change-log: db/changelog/changelog-master.xml
+jwt:
+  secret: dhfbgdkjshfsdhfs5273645723hfdsdfgskd
+  lifetime: 30m
+
+#logging:
+#  level:
+#    org:
+#      springframework:
+#        jdbc:
+#          datasource:
+#            init: debug

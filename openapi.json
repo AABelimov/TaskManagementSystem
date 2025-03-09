@@ -1,0 +1,918 @@
+{
+  "openapi": "3.1.0",
+  "servers": [
+    {
+      "url": "http://localhost:8080",
+      "description": "Generated server url"
+    }
+  ],
+  "paths": {
+    "/tasks": {
+      "post": {
+        "tags": [
+          "Задачи"
+        ],
+        "summary": "Добавить задачу",
+        "operationId": "createTask",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Данные для создания задачи"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Задача добавлена",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Задача"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Не хватает прав"
+          },
+          "404": {
+            "description": "Пользователя с таким id не найдено"
+          }
+        }
+      }
+    },
+    "/comments/task/{taskId}": {
+      "get": {
+        "tags": [
+          "Комментарии"
+        ],
+        "summary": "Получить список комментариев по id задачи",
+        "operationId": "getCommentsByTaskId",
+        "parameters": [
+          {
+            "name": "taskId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Список комментариев получен",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Комментарии"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Не хватает прав"
+          },
+          "404": {
+            "description": "Задачи с таким id не найдено"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Комментарии"
+        ],
+        "summary": "Добавить комментарий к задаче",
+        "operationId": "createComment",
+        "parameters": [
+          {
+            "name": "taskId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Комментарий добавлен",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Комментарий"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Не хватает прав"
+          },
+          "404": {
+            "description": "Задачи с таким id не найдено"
+          }
+        }
+      }
+    },
+    "/auth/sign-up": {
+      "post": {
+        "tags": [
+          "Регистрация"
+        ],
+        "summary": "Регистрация пользователя",
+        "operationId": "signUp",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Данные для регистрации"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Пользователь зарегистрирован",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JWT токен"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Не валидный email или с таким уже зарегистрировались"
+          }
+        }
+      }
+    },
+    "/auth/sign-in": {
+      "post": {
+        "tags": [
+          "Авторизация"
+        ],
+        "summary": "Авторизация пользователя",
+        "operationId": "signIn",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Данные для авторизации"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Пользователь авторизован",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JWT токен"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Невалидный email или неверные логин или пароль"
+          },
+          "401": {
+            "description": "Пользователь не авторизован"
+          }
+        }
+      }
+    },
+    "/tasks/{id}/update-title": {
+      "patch": {
+        "tags": [
+          "Задачи"
+        ],
+        "summary": "Обновить заголовок задачи",
+        "operationId": "updateTitle",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Заголовок обновлен",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Задача"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Не хватает прав"
+          },
+          "404": {
+            "description": "Задачи с таким id не найдено"
+          }
+        }
+      }
+    },
+    "/tasks/{id}/update-status": {
+      "patch": {
+        "tags": [
+          "Задачи"
+        ],
+        "summary": "Обновить статус задачи",
+        "operationId": "updateStatus",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Статус обновлен",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Задача"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Не хватает прав"
+          },
+          "404": {
+            "description": "Задачи с таким id не найдено"
+          }
+        }
+      }
+    },
+    "/tasks/{id}/update-priority": {
+      "patch": {
+        "tags": [
+          "Задачи"
+        ],
+        "summary": "Обновить приоритет задачи",
+        "operationId": "updatePriority",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Приоритет обновлен",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Задача"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Не хватает прав"
+          },
+          "404": {
+            "description": "Задачи с таким id не найдено"
+          }
+        }
+      }
+    },
+    "/tasks/{id}/update-performer": {
+      "patch": {
+        "tags": [
+          "Задачи"
+        ],
+        "summary": "Обновить исполнителя задачи",
+        "operationId": "updatePerformer",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Исполнитель обновлен",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Задача"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Не хватает прав"
+          },
+          "404": {
+            "description": "Задачи или пользователя с таким id не найдено"
+          }
+        }
+      }
+    },
+    "/tasks/{id}/update-description": {
+      "patch": {
+        "tags": [
+          "Задачи"
+        ],
+        "summary": "Обновить описание задачи",
+        "operationId": "updateDescription",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Описание обновлено",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Задача"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Не хватает прав"
+          },
+          "404": {
+            "description": "Задачи с таким id не найдено"
+          }
+        }
+      }
+    },
+    "/comments/{id}": {
+      "delete": {
+        "tags": [
+          "Комментарии"
+        ],
+        "summary": "Удалить комментарий",
+        "operationId": "deleteComment",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Комментарий удален",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Комментарий"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Не хватает прав"
+          },
+          "404": {
+            "description": "Комментария с таким id не найдено"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Комментарии"
+        ],
+        "summary": "Редактировать комментарий",
+        "operationId": "updateComment",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Комментарий отредактирован",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Комментарий"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Не хватает прав"
+          },
+          "404": {
+            "description": "Комментария с таким id не найдено"
+          }
+        }
+      }
+    },
+    "/tasks/{id}": {
+      "get": {
+        "tags": [
+          "Задачи"
+        ],
+        "summary": "Получить задачу",
+        "operationId": "getTask",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Задача получена",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Задача"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Не хватает прав"
+          },
+          "404": {
+            "description": "Задачи с таким id не найдено"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Задачи"
+        ],
+        "summary": "Удалить задачу",
+        "operationId": "deleteTask",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Задача обновлена"
+          },
+          "403": {
+            "description": "Не хватает прав"
+          },
+          "404": {
+            "description": "Задачи с таким id не найдено"
+          }
+        }
+      }
+    },
+    "/tasks/performer/{performerId}": {
+      "get": {
+        "tags": [
+          "Задачи"
+        ],
+        "summary": "Получить список задач по id исполнителя",
+        "operationId": "getTasksByPerformer",
+        "parameters": [
+          {
+            "name": "performerId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Список задач получен",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Задачи"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Не хватает прав"
+          },
+          "404": {
+            "description": "Пользователя с таким id не найдено"
+          }
+        }
+      }
+    },
+    "/tasks/author/{authorId}": {
+      "get": {
+        "tags": [
+          "Задачи"
+        ],
+        "summary": "Получить список задач по id автора",
+        "operationId": "getTasksByAuthor",
+        "parameters": [
+          {
+            "name": "authorId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Список задач получен",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Задачи"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Не хватает прав"
+          },
+          "404": {
+            "description": "Пользователя с таким id не найдено"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Задача": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "description": "id задачи"
+          },
+          "title": {
+            "type": "string",
+            "description": "Заголовок задачи"
+          },
+          "description": {
+            "type": "string",
+            "description": "Описание задачи"
+          },
+          "status": {
+            "type": "string",
+            "description": "Статус задачи",
+            "enum": [
+              "PENDING",
+              "IN_PROGRESS",
+              "COMPLETED"
+            ]
+          },
+          "priority": {
+            "type": "string",
+            "description": "Приоритет задачи",
+            "enum": [
+              "HIGH",
+              "MEDIUM",
+              "LOW"
+            ]
+          },
+          "timestamp": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Временная метка создания задачи"
+          },
+          "author": {
+            "$ref": "#/components/schemas/Пользователь",
+            "description": "Автор"
+          },
+          "performer": {
+            "$ref": "#/components/schemas/Пользователь",
+            "description": "Исполнитель"
+          }
+        }
+      },
+      "Пользователь": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "description": "id пользователя"
+          },
+          "username": {
+            "type": "string",
+            "description": "Логин (почта)"
+          },
+          "role": {
+            "type": "string",
+            "description": "Роль пользователя",
+            "enum": [
+              "ROLE_ADMIN",
+              "ROLE_USER"
+            ]
+          }
+        }
+      },
+      "Данные для создания задачи": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Заголовок задачи"
+          },
+          "description": {
+            "type": "string",
+            "description": "Описание задачи"
+          },
+          "priority": {
+            "type": "string",
+            "description": "Приоритет задачи",
+            "enum": [
+              "HIGH",
+              "MEDIUM",
+              "LOW"
+            ]
+          },
+          "performerId": {
+            "type": "integer",
+            "format": "int64",
+            "description": "id исполнителя"
+          }
+        }
+      },
+      "Комментарий": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "description": "id комментария"
+          },
+          "comment": {
+            "type": "string",
+            "description": "Текст комментария"
+          },
+          "timestamp": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Временная метка создания комментария"
+          },
+          "author": {
+            "$ref": "#/components/schemas/Пользователь",
+            "description": "Автор комментария"
+          }
+        }
+      },
+      "JWT токен": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "description": "Токен"
+          }
+        }
+      },
+      "Данные для регистрации": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "description": "Логин (почта)"
+          },
+          "password": {
+            "type": "string",
+            "description": "Пароль"
+          }
+        }
+      },
+      "Данные для авторизации": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "description": "Логин (почта)"
+          },
+          "password": {
+            "type": "string",
+            "description": "Пароль"
+          }
+        }
+      },
+      "Задачи": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Количество задач"
+          },
+          "comments": {
+            "type": "array",
+            "description": "Задачи",
+            "items": {
+              "$ref": "#/components/schemas/Задача"
+            }
+          }
+        }
+      },
+      "Комментарии": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Количество комментариев"
+          },
+          "comments": {
+            "type": "array",
+            "description": "Комментарии",
+            "items": {
+              "$ref": "#/components/schemas/Комментарий"
+            }
+          }
+        }
+      }
+    }
+  },
+  "info": {
+    "description": "TaskManagementSystem openapi"
+  }
+}

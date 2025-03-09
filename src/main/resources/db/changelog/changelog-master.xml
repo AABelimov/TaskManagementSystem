@@ -4,7 +4,8 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                    https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
-    <changeSet id="changelog-master.1" author="AABelimov">
-
-    </changeSet>
+    <include file="table/create-users-table.xml" relativeToChangelogFile="true"/>
+    <include file="table/create-tasks-table.xml" relativeToChangelogFile="true"/>
+    <include file="table/create-comments-table.xml" relativeToChangelogFile="true"/>
+    <include file="data/add-data-in-users-table.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

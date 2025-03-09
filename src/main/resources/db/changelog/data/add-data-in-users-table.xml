@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="add-data-in-users-table.1" author="AABelimov">
+        <preConditions>
+            <tableExists tableName="users"/>
+        </preConditions>
+
+        <insert tableName="users">
+            <column name="username" value="admin@admin.ru"/>
+            <column name="password" value="$2a$10$l8MBW5KdouGuw8BcN2U3quDVjZWHcgrF/IU.I7lvWqzOKdnLNv0pq"/>
+            <column name="role" value="0"/>
+        </insert>
+        <insert tableName="users">
+            <column name="username" value="user@user.ru"/>
+            <column name="password" value="$2a$10$/keFcuz3PFtJLyiISzCukOd/guVl9yMK.IRZBOYWiK9eNkFkentIi"/>
+            <column name="role" value="1"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>
