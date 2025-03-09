@@ -36,8 +36,8 @@ public class TaskController {
                                     schema = @Schema(implementation = TaskDto.class)
                             )
                     ),
-                    @ApiResponse(responseCode = "400", description = "Bad request", content = @Content),
-                    @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content)
+                    @ApiResponse(responseCode = "403", description = "Не хватает прав", content = @Content),
+                    @ApiResponse(responseCode = "404", description = "Пользователя с таким id не найдено", content = @Content)
             }
     )
     @PostMapping
@@ -56,8 +56,8 @@ public class TaskController {
                                     schema = @Schema(implementation = TaskDto.class)
                             )
                     ),
-                    @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content),
-                    @ApiResponse(responseCode = "404", description = "Not found", content = @Content)
+                    @ApiResponse(responseCode = "403", description = "Не хватает прав", content = @Content),
+                    @ApiResponse(responseCode = "404", description = "Задачи с таким id не найдено", content = @Content)
             }
     )
     @GetMapping("{id}")
@@ -76,8 +76,8 @@ public class TaskController {
                                     schema = @Schema(implementation = TasksDto.class)
                             )
                     ),
-                    @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content),
-                    @ApiResponse(responseCode = "404", description = "Not found", content = @Content)
+                    @ApiResponse(responseCode = "403", description = "Не хватает прав", content = @Content),
+                    @ApiResponse(responseCode = "404", description = "Пользователя с таким id не найдено", content = @Content)
             }
     )
     @GetMapping("author/{authorId}")
@@ -98,8 +98,8 @@ public class TaskController {
                                     schema = @Schema(implementation = TasksDto.class)
                             )
                     ),
-                    @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content),
-                    @ApiResponse(responseCode = "404", description = "Not found", content = @Content)
+                    @ApiResponse(responseCode = "403", description = "Не хватает прав", content = @Content),
+                    @ApiResponse(responseCode = "404", description = "Пользователя с таким id не найдено", content = @Content)
             }
     )
     @GetMapping("performer/{performerId}")
@@ -120,8 +120,8 @@ public class TaskController {
                                     schema = @Schema(implementation = TaskDto.class)
                             )
                     ),
-                    @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content),
-                    @ApiResponse(responseCode = "404", description = "Not found", content = @Content)
+                    @ApiResponse(responseCode = "403", description = "Не хватает прав", content = @Content),
+                    @ApiResponse(responseCode = "404", description = "Задачи с таким id не найдено", content = @Content)
             }
     )
     @PatchMapping("{id}/update-title")
@@ -140,8 +140,8 @@ public class TaskController {
                                     schema = @Schema(implementation = TaskDto.class)
                             )
                     ),
-                    @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content),
-                    @ApiResponse(responseCode = "404", description = "Not found", content = @Content)
+                    @ApiResponse(responseCode = "403", description = "Не хватает прав", content = @Content),
+                    @ApiResponse(responseCode = "404", description = "Задачи с таким id не найдено", content = @Content)
             }
     )
     @PatchMapping("{id}/update-description")
@@ -160,8 +160,8 @@ public class TaskController {
                                     schema = @Schema(implementation = TaskDto.class)
                             )
                     ),
-                    @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content),
-                    @ApiResponse(responseCode = "404", description = "Not found", content = @Content)
+                    @ApiResponse(responseCode = "403", description = "Не хватает прав", content = @Content),
+                    @ApiResponse(responseCode = "404", description = "Задачи с таким id не найдено", content = @Content)
             }
     )
     @PatchMapping("{id}/update-status")
@@ -180,8 +180,8 @@ public class TaskController {
                                     schema = @Schema(implementation = TaskDto.class)
                             )
                     ),
-                    @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content),
-                    @ApiResponse(responseCode = "404", description = "Not found", content = @Content)
+                    @ApiResponse(responseCode = "403", description = "Не хватает прав", content = @Content),
+                    @ApiResponse(responseCode = "404", description = "Задачи с таким id не найдено", content = @Content)
             }
     )
     @PatchMapping("{id}/update-priority")
@@ -200,8 +200,8 @@ public class TaskController {
                                     schema = @Schema(implementation = TaskDto.class)
                             )
                     ),
-                    @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content),
-                    @ApiResponse(responseCode = "404", description = "Not found", content = @Content)
+                    @ApiResponse(responseCode = "403", description = "Не хватает прав", content = @Content),
+                    @ApiResponse(responseCode = "404", description = "Задачи или пользователя с таким id не найдено", content = @Content)
             }
     )
     @PatchMapping("{id}/update-performer")
@@ -214,8 +214,8 @@ public class TaskController {
             summary = "Удалить задачу",
             responses = {
                     @ApiResponse(responseCode = "200", description = "Задача обновлена", content = @Content),
-                    @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content),
-                    @ApiResponse(responseCode = "404", description = "Not found", content = @Content)
+                    @ApiResponse(responseCode = "403", description = "Не хватает прав", content = @Content),
+                    @ApiResponse(responseCode = "404", description = "Задачи с таким id не найдено", content = @Content)
             }
     )
     @DeleteMapping("{id}")

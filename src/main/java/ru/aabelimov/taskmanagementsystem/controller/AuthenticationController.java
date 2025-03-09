@@ -34,7 +34,7 @@ public class AuthenticationController {
                                     schema = @Schema(implementation = JwtAuthenticationResponse.class)
                             )
                     ),
-                    @ApiResponse(responseCode = "400", description = "Плохой запрос", content = @Content)
+                    @ApiResponse(responseCode = "400", description = "Не валидный email или с таким уже зарегистрировались", content = @Content)
             },
             tags = "Регистрация"
     )
@@ -53,7 +53,7 @@ public class AuthenticationController {
                                     schema = @Schema(implementation = JwtAuthenticationResponse.class)
                             )
                     ),
-                    @ApiResponse(responseCode = "400", description = "Плохой запрос", content = @Content),
+                    @ApiResponse(responseCode = "400", description = "Невалидный email или неверные логин или пароль", content = @Content),
                     @ApiResponse(responseCode = "401", description = "Пользователь не авторизован", content = @Content)
             },
             tags = "Авторизация"

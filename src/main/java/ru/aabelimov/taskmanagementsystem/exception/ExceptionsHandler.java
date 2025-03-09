@@ -16,16 +16,17 @@ public class ExceptionsHandler {
             IllegalEmailException.class
     })
     public ResponseEntity<?> handleBadRequest(RuntimeException e) {
-        log.error(e.getMessage());
+        log.error(e.getMessage(), e);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
 
     @ExceptionHandler({
             UserNotFoundException.class,
-            TaskNotFoundException.class
+            TaskNotFoundException.class,
+            CommentNotFoundException.class,
     })
     public ResponseEntity<?> handleNotFound(RuntimeException e) {
-        log.error(e.getMessage());
+        log.error(e.getMessage(), e);
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
     }
 
@@ -33,7 +34,7 @@ public class ExceptionsHandler {
             BadCredentialsException.class,
     })
     public ResponseEntity<?> handleBadCredentialsException(RuntimeException e) {
-        log.error(e.getMessage());
+        log.error("Неверно указан логин или пароль", e);
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Неверно указан логин или пароль");
     }
 }

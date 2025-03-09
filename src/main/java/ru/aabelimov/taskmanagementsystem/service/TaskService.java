@@ -6,8 +6,6 @@ import ru.aabelimov.taskmanagementsystem.dto.TaskDto;
 import ru.aabelimov.taskmanagementsystem.dto.TasksDto;
 import ru.aabelimov.taskmanagementsystem.entity.Task;
 
-import java.util.List;
-
 public interface TaskService {
 
     TaskDto createTask(CreateTaskDto dto, Authentication authentication);

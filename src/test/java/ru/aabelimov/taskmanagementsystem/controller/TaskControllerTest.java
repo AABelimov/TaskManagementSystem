@@ -104,7 +104,7 @@ public class TaskControllerTest {
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(adminToken);
 
-        HttpEntity<CreateTaskDto> request = new HttpEntity<>(headers);
+        HttpEntity<String> request = new HttpEntity<>(headers);
 
         // Валидный запрос
         ResponseEntity<TaskDto> response = restTemplate.exchange("/tasks/101", HttpMethod.GET, request, TaskDto.class);
@@ -131,7 +131,7 @@ public class TaskControllerTest {
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(userToken);
 
-        HttpEntity<CreateTaskDto> request = new HttpEntity<>(headers);
+        HttpEntity<String> request = new HttpEntity<>(headers);
 
         // Запрос своей задачи
         ResponseEntity<TaskDto> response = restTemplate.exchange("/tasks/101", HttpMethod.GET, request, TaskDto.class);
@@ -157,7 +157,7 @@ public class TaskControllerTest {
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(adminToken);
 
-        HttpEntity<CreateTaskDto> request = new HttpEntity<>(headers);
+        HttpEntity<String> request = new HttpEntity<>(headers);
 
         //Валидные данные, asc sort
         ResponseEntity<TasksDto> response = restTemplate.exchange("/tasks/author/101?page=0", HttpMethod.GET, request, TasksDto.class);
@@ -187,7 +187,7 @@ public class TaskControllerTest {
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(userToken);
 
-        HttpEntity<CreateTaskDto> request = new HttpEntity<>(headers);
+        HttpEntity<String> request = new HttpEntity<>(headers);
 
         ResponseEntity<TasksDto> response = restTemplate.exchange("/tasks/author/101?page=0", HttpMethod.GET, request, TasksDto.class);
 
@@ -199,7 +199,7 @@ public class TaskControllerTest {
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(adminToken);
 
-        HttpEntity<CreateTaskDto> request = new HttpEntity<>(headers);
+        HttpEntity<String> request = new HttpEntity<>(headers);
 
         //Валидные данные, asc sort
         ResponseEntity<TasksDto> response = restTemplate.exchange("/tasks/performer/112?page=0", HttpMethod.GET, request, TasksDto.class);
@@ -229,7 +229,7 @@ public class TaskControllerTest {
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(userToken);
 
-        HttpEntity<CreateTaskDto> request = new HttpEntity<>(headers);
+        HttpEntity<String> request = new HttpEntity<>(headers);
 
         // Получить свои задачи
         ResponseEntity<TasksDto> response = restTemplate.exchange("/tasks/performer/102?page=0", HttpMethod.GET, request, TasksDto.class);

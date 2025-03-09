@@ -7,10 +7,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-import ru.aabelimov.taskmanagementsystem.entity.User;
 
 import javax.crypto.SecretKey;
-import java.security.Key;
 import java.time.Duration;
 import java.util.Date;
 import java.util.HashMap;
@@ -52,10 +50,6 @@ public class JwtTokenUtility {
     public String getUsername(String token) {
         return getAllClaimsFromToken(token).getSubject();
     }
-
-//    public List<String> getRoles(String token) {
-//        return getAllClaimsFromToken(token).get("roles", List.class);
-//    }
 
     private Claims getAllClaimsFromToken(String token) {
         return Jwts.parser().verifyWith(getKey()).build().parseSignedClaims(token).getPayload();

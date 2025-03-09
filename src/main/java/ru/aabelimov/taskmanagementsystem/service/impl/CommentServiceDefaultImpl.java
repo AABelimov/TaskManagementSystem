@@ -1,5 +1,6 @@
 package ru.aabelimov.taskmanagementsystem.service.impl;
 
+import com.jayway.jsonpath.JsonPath;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -10,6 +11,7 @@ import ru.aabelimov.taskmanagementsystem.dto.CommentsDto;
 import ru.aabelimov.taskmanagementsystem.entity.Comment;
 import ru.aabelimov.taskmanagementsystem.entity.Task;
 import ru.aabelimov.taskmanagementsystem.entity.User;
+import ru.aabelimov.taskmanagementsystem.exception.CommentNotFoundException;
 import ru.aabelimov.taskmanagementsystem.mapper.CommentMapper;
 import ru.aabelimov.taskmanagementsystem.repository.CommentRepository;
 import ru.aabelimov.taskmanagementsystem.service.CommentService;
@@ -37,9 +39,28 @@ public class CommentServiceDefaultImpl implements CommentService {
     }
 
     @Override
+    public Comment getComment(Long id) {
+        return commentRepository.findById(id).orElseThrow(() -> new CommentNotFoundException(id));
+    }
+
+    @Override
     public CommentsDto getCommentsByTaskId(Long taskId, Integer page, String sort) {
+        Task task = taskService.getTask(taskId);
         PageRequest pageRequest = createPageRequest(page, sort);
-        return commentMapper.toListDto(commentRepository.findAllByTaskId(taskId, pageRequest));
+        return commentMapper.toListDto(commentRepository.findAllByTask(task, pageRequest));
+    }
+
+    @Override
+    public CommentDto updateComment(Long id, String comment) {
+        Comment commentEntity = getComment(id);
+        comment = JsonPath.parse(comment).read("$.comment");
+        commentEntity.setComment(comment);
+        return commentMapper.toDto(commentRepository.save(commentEntity));
+    }
+
+    @Override
+    public void deleteComment(Long id) {
+        commentRepository.delete(getComment(id));
     }
 
     private PageRequest createPageRequest(Integer page, String sort) {

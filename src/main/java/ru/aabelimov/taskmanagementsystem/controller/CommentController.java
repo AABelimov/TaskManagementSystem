@@ -33,8 +33,8 @@ public class CommentController {
                                     schema = @Schema(implementation = CommentDto.class)
                             )
                     ),
-                    @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content),
-                    @ApiResponse(responseCode = "404", description = "Not found", content = @Content)
+                    @ApiResponse(responseCode = "403", description = "Не хватает прав", content = @Content),
+                    @ApiResponse(responseCode = "404", description = "Задачи с таким id не найдено", content = @Content)
             }
     )
     @PostMapping("task/{taskId}")
@@ -55,8 +55,8 @@ public class CommentController {
                                     schema = @Schema(implementation = CommentsDto.class)
                             )
                     ),
-                    @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content),
-                    @ApiResponse(responseCode = "404", description = "Not found", content = @Content)
+                    @ApiResponse(responseCode = "403", description = "Не хватает прав", content = @Content),
+                    @ApiResponse(responseCode = "404", description = "Задачи с таким id не найдено", content = @Content)
             }
     )
     @GetMapping("task/{taskId}")
@@ -65,5 +65,46 @@ public class CommentController {
                                                            @RequestParam Integer page,
                                                            @RequestParam(required = false) String sort) {
         return ResponseEntity.ok(commentService.getCommentsByTaskId(taskId, page, sort));
+    }
+
+    @Operation(
+            summary = "Редактировать комментарий",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200", description = "Комментарий отредактирован",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    schema = @Schema(implementation = CommentDto.class)
+                            )
+                    ),
+                    @ApiResponse(responseCode = "403", description = "Не хватает прав", content = @Content),
+                    @ApiResponse(responseCode = "404", description = "Комментария с таким id не найдено", content = @Content)
+            }
+    )
+    @PatchMapping("{id}")
+    @PreAuthorize("@commentServiceDefaultImpl.getComment(#id).author.username == authentication.name")
+    public ResponseEntity<CommentDto> updateComment(@PathVariable Long id, @RequestBody String comment) {
+        return ResponseEntity.ok(commentService.updateComment(id, comment));
+    }
+
+    @Operation(
+            summary = "Удалить комментарий",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200", description = "Комментарий удален",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    schema = @Schema(implementation = CommentDto.class)
+                            )
+                    ),
+                    @ApiResponse(responseCode = "403", description = "Не хватает прав", content = @Content),
+                    @ApiResponse(responseCode = "404", description = "Комментария с таким id не найдено", content = @Content)
+            }
+    )
+    @DeleteMapping("{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER') and @commentServiceDefaultImpl.getComment(#id).author.username == authentication.name")
+    public ResponseEntity<Void> deleteComment(@PathVariable Long id) {
+        commentService.deleteComment(id);
+        return ResponseEntity.ok().build();
     }
 }

@@ -11,8 +11,6 @@ import ru.aabelimov.taskmanagementsystem.mapper.UserMapper;
 import ru.aabelimov.taskmanagementsystem.repository.UserRepository;
 import ru.aabelimov.taskmanagementsystem.service.UserService;
 
-import java.util.List;
-
 @Service
 @RequiredArgsConstructor
 public class UserServiceDefaultImpl implements UserService {

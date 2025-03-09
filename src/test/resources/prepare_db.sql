@@ -13,3 +13,10 @@ INSERT INTO tasks (id, title, description, status, priority, timestamp, author_i
 VALUES (102, 'task title2', 'task description2', 0, 0, 1234567890, 101, 112);
 INSERT INTO tasks (id, title, description, status, priority, timestamp, author_id, performer_id)
 VALUES (103, 'task title3', 'task description3', 0, 0, 12345678901, 111, 112);
+
+INSERT INTO comments (id, comment, timestamp, task_id, author_id)
+VALUES (101, 'comment', 123456789, 101, 102);
+INSERT INTO comments (id, comment, timestamp, task_id, author_id)
+VALUES (102, 'comment2', 1234567890, 101, 102);
+INSERT INTO comments (id, comment, timestamp, task_id, author_id)
+VALUES (103, 'comment3', 12345678901, 101, 101);
